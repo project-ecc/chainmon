@@ -78,7 +78,7 @@ def main():
 	logging.basicConfig(filename = settings.coin_symbol + '/{:%Y-%m-%d}.log'.format(datetime.datetime.now()),
 						filemode = 'a',
 						level    = logging.INFO,
-						format   = '%(asctime)s,%(message)s',
+						format   = '%(asctime)s - %(levelname)s : %(message)s',
 						datefmt  = '%d/%m/%Y %H:%M:%S')
 
 	logging.info('STARTUP')
