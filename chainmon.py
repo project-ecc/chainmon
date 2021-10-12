@@ -10,6 +10,8 @@ import signal
 import time
 import sys
 
+from util_email import sendEmail
+
 from slickrpc import Proxy
 from slickrpc import exc
 
@@ -27,20 +29,33 @@ class ChainMonApp:
 
 	############################################################################
 
+	def get_blocks(self):
+
+		info = proxy.getinfo()
+
+		return info['blocks']
+
+	############################################################################
+
 	def run(self):
+
+		blocks = self.get_blocks()
+
+		logging.info('Blockchain monitoring starting at block {}'.format(blocks))
 
 		while True:
 
-			info = proxy.getinfo()
+			time.sleep(settings.stall_sec)
 
-			headers = info['headers']
-			blocks  = info['blocks']
+			new_blocks  = self.get_blocks()
 
-			#TODO - Stall Detection (settings.stall_sec)
+			if new_blocks == blocks:
 
-			logging.info()
+				logging.info('Blockchain stalled at block {}'.format(blocks))
 
-			time.sleep(10)
+				sendEmail('henry@home-young.me.uk', 'Blockchain stalled at block {}'.format(blocks))
+
+			blocks = new_blocks
 
 ################################################################################
 
