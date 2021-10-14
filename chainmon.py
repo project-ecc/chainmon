@@ -39,6 +39,7 @@ class ChainMonApp:
 
 	def run(self):
 
+		stalls = 0
 		blocks = self.get_blocks()
 
 		logging.info('Blockchain monitoring starting at block {}'.format(blocks))
@@ -51,9 +52,17 @@ class ChainMonApp:
 
 			if new_blocks == blocks:
 
-				logging.info('Blockchain stalled at block {}'.format(blocks))
+				stalls += 1
 
-				sendEmail('henry@home-young.me.uk', 'Blockchain stalled at block {}'.format(blocks))
+				if bin(stalls).count('1') == 1:
+
+					logging.info('Blockchain stalled at block {}'.format(blocks))
+
+					sendEmail('henry@home-young.me.uk', 'Blockchain stalled at block {}'.format(blocks))
+
+			else:
+
+				stalls = 0
 
 			blocks = new_blocks
 
