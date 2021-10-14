@@ -10,6 +10,8 @@ import signal
 import time
 import sys
 
+from discord_webhook import DiscordWebhook
+
 from util_email import sendEmail
 
 from slickrpc import Proxy
@@ -39,6 +41,8 @@ class ChainMonApp:
 
 	def run(self):
 
+		discord_webhook = 'https://discord.com/api/webhooks/898035911944712232/8yyYTlIuNCDmW-hi_bZ7XUI2S3G_xHAizZusdOYOUn177l9eK969m9JF1AWs8FZsRGmA'
+
 		stalls = 0
 		blocks = self.get_blocks()
 
@@ -56,9 +60,15 @@ class ChainMonApp:
 
 				if bin(stalls).count('1') == 1:
 
-					logging.info('Blockchain stalled at block {}'.format(blocks))
+					message = 'Blockchain stalled at block {}'.format(blocks)
 
-					sendEmail('henry@home-young.me.uk', 'Blockchain stalled at block {}'.format(blocks))
+					logging.info(message)
+
+					webhook = DiscordWebhook(url=discord_webhook, content=message)
+
+					response = webhook.execute()
+
+					sendEmail('henry@home-young.me.uk', message)
 
 			else:
 
