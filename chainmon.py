@@ -64,11 +64,19 @@ class ChainMonApp:
 
 					logging.info(message)
 
-					webhook = DiscordWebhook(url=discord_webhook, content=message)
+					if settings.email_enable:
 
-					response = webhook.execute()
+						sendEmail(settings.to_email, message)
 
-					sendEmail('henry@home-young.me.uk', message)
+					if settings.twitter_enable:
+
+						pass
+
+					if settings.discord_enable:
+
+						webhook = DiscordWebhook(url=settings.discord_webhook, content=message)
+
+						response = webhook.execute()
 
 			else:
 

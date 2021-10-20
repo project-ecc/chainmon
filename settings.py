@@ -5,7 +5,7 @@ rpc_user    = '<deleted>'
 rpc_pass    = '<deleted>'
 
 # Stall Detection
-stall_sec   = 10*60
+stall_sec   = 15*60
 
 # Email Action
 email_enable  = True
@@ -14,11 +14,15 @@ smtp_port     = 465 # For SSL
 email_pass    = "<deleted>"
 email_address = "<deleted>"
 send_email    = "<deleted>"
+to_email      = "<deleted>"
 
 # Twitter Action
-twitter_enable              = True
+twitter_enable              = False
 twitter_api_key             = "<deleted>"
 twitter_api_secret_key      = "<deleted>"
 twitter_access_token        = "<deleted>"
 twitter_access_token_secret = "<deleted>"
 
+# Discord Action
+discord_enable = True
+discord_webhook = "<deleted>"
