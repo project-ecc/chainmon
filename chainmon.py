@@ -31,34 +31,39 @@ class ChainMonApp:
 
 	############################################################################
 
-	def get_blocks(self):
+	def get_block_info(self):
 
-		info = proxy.getinfo()
+		blockchaininfo = proxy.getblockchaininfo()
 
-		return info['blocks']
+		bestblockhash  = blockchaininfo['bestblockhash']
+
+		bestblockinfo  = proxy.getblock(bestblockhash)
+
+		return (blockchaininfo['blocks'], bestblockinfo['time'])
 
 	############################################################################
 
 	def run(self):
 
 		stalls = 0
-		blocks = self.get_blocks()
 
-		logging.info('Blockchain monitoring starting at block {}'.format(blocks))
+		(block, block_time) = self.get_block_info()
+
+		logging.info('Blockchain monitoring starting at block {}'.format(block))
 
 		while True:
 
 			time.sleep(settings.stall_sec)
 
-			new_blocks  = self.get_blocks()
+			(new_block, block_time) = self.get_block_info()
 
-			if new_blocks == blocks:
+			if new_block == block:
 
 				stalls += 1
 
 				if bin(stalls).count('1') == 1:
 
-					message = 'Blockchain stalled at block {}'.format(blocks)
+					message = 'Blockchain stalled at block {} for {} minutes'.format(block, (int(time.time()) - block_time) // 60)
 
 					logging.info(message)
 
@@ -80,7 +85,7 @@ class ChainMonApp:
 
 				stalls = 0
 
-			blocks = new_blocks
+			block = new_block
 
 ################################################################################
 
