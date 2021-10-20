@@ -41,8 +41,6 @@ class ChainMonApp:
 
 	def run(self):
 
-		discord_webhook = 'https://discord.com/api/webhooks/898035911944712232/8yyYTlIuNCDmW-hi_bZ7XUI2S3G_xHAizZusdOYOUn177l9eK969m9JF1AWs8FZsRGmA'
-
 		stalls = 0
 		blocks = self.get_blocks()
 
